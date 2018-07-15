@@ -13,7 +13,7 @@ class X1SendingMessages {
         isPersistent = false
     }
 
-    val connectionFactory = ActiveMQConnectionFactory("vm://localhost")
+    val connectionFactory = ActiveMQConnectionFactory()
 
     @Before
     fun setUp() {

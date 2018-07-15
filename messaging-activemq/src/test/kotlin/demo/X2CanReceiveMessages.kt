@@ -12,9 +12,10 @@ class X2CanReceiveMessages {
 
     val broker = BrokerService().apply {
         isPersistent = false
+        addConnector("tcp://localhost:61616")
     }
 
-    val connectionFactory = ActiveMQConnectionFactory("vm://localhost")
+    val connectionFactory = ActiveMQConnectionFactory()
 
     @Before
     fun setUp() {
