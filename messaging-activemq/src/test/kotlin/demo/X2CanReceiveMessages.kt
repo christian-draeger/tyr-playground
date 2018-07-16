@@ -6,9 +6,11 @@ import org.awaitility.Awaitility
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import javax.jms.*
-
+import javax.jms.Session
+import javax.jms.TextMessage
 class X2CanReceiveMessages {
+
+    private var receivedMessage = ""
 
     val broker = BrokerService().apply {
         isPersistent = false
@@ -38,12 +40,12 @@ class X2CanReceiveMessages {
 
     @Test
     fun canListenForMessages() {
-        sendMessage("HelloQueue", "Hello World")
+        sendMessage("HelloQueue2", "Hello World")
 
-        registerListener("HelloQueue")
+        registerListener("HelloQueue2")
 
         Awaitility.await().until {
-            false
+            receivedMessage.equals("Hello World")
         }
     }
 
@@ -115,6 +117,8 @@ class X2CanReceiveMessages {
         // Create a MessageConsumer from the Session to the Topic or Queue
         val consumer = session.createConsumer(destination)
 
-        TODO("implementiere einen Listener, um hier nicht zu pollen")
+        consumer.setMessageListener {
+            receivedMessage = (it as TextMessage).text
+        }
     }
 }
