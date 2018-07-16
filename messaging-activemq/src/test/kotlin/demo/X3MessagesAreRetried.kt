@@ -7,7 +7,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.util.*
-import javax.jms.*
+import java.util.concurrent.TimeUnit.SECONDS
+import javax.jms.MessageListener
+import javax.jms.Session
+import javax.jms.TextMessage
 
 class X3MessagesAreRetried {
 
@@ -37,7 +40,7 @@ class X3MessagesAreRetried {
 
         sendMessage("HelloQueue", "Hello World")
 
-        Awaitility.await().until {
+        Awaitility.await().atMost(60, SECONDS).until {
             results.size == 1
         }
     }
@@ -86,12 +89,12 @@ class X3MessagesAreRetried {
         consumer.messageListener = MessageListener {
             val tm = it as TextMessage
 
-            it.acknowledge()
-
             tryCount++
             if (tryCount < 3) throw RuntimeException("temp failure")
 
             results.add(tm.text)
+
+            it.acknowledge()
         }
     }
 }
