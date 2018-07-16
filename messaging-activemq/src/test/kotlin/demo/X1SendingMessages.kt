@@ -17,6 +17,7 @@ class X1SendingMessages {
 
     @Before
     fun setUp() {
+        broker.addConnector("tcp://localhost:61616")
         broker.start()
     }
 
