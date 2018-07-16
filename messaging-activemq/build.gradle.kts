@@ -3,6 +3,10 @@ plugins {
     kotlin("jvm")
 }
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile("org.apache.activemq:activemq-broker:5.15.4")
@@ -17,6 +21,6 @@ dependencies {
 
     implementation("ch.qos.logback:logback-classic:1.2.3")
 
-    compile("org.springframework.boot:spring-boot-starter-activemq")
+    //compile("org.springframework.boot:spring-boot-starter-activemq")
 
 }
